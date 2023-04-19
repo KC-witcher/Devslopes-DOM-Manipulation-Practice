@@ -2,7 +2,7 @@
  * SORTING NODES WITHIN A CONTAINER
  * Please, make sure to read the following files in the exercises-info folder before you start
  * * 01 SelectNodes.md
-*/
+ */
 
 /**
  * @task
@@ -12,8 +12,7 @@
  */
 
 // Your code goes here...
-
-
+const allItems = document.querySelectorAll(".item");
 
 /**
  * @task
@@ -23,8 +22,7 @@
  * */
 
 // Your code goes here
-
-
+const main = document.getElementById("main");
 
 /**
  * @task
@@ -32,10 +30,8 @@
  * Store it in the favs constant
  * Example: const favs = <Your code>;
  */
-
 // Your code goes here
-
-
+const favs = document.getElementById("favs");
 
 /**
  * @task
@@ -47,8 +43,19 @@
  */
 
 // Your code goes here
-
-
+function updateCollections(id, direction) {
+  const targetElement = document.getElementById(id);
+  const icon = targetElement.firstElementChild;
+  if (direction == "toMain") {
+    main.appendChild(targetElement);
+    icon.classList.add("fa-heart-circle-plus");
+    icon.classList.remove("fa-heart-crack");
+  } else if (direction == "toFavs") {
+    favs.appendChild(targetElement);
+    icon.classList.add("fa-heart-crack");
+    icon.classList.remove("fa-heart-circle-plus");
+  }
+}
 
 /**
  * @task
@@ -66,4 +73,11 @@
 
 // Your code goes here...
 
-
+allItems.forEach((node) => {
+  node.addEventListener("click", () => {
+    const parentId = node.parentElement.id;
+    const targetNodeId = node.id;
+    const direction = parentId == "main" ? "toFavs" : "toMain";
+    updateCollections(targetNodeId, direction);
+  });
+});
