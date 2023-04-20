@@ -7,8 +7,8 @@
  * * 03 LocalStorage.md
  * * 04 EventDelegation.md
  * Local Storage might be shortened to "LS" in the comments beneath.
- * @requirement
  * Event delegation MUST be used
+ * @requirement
  */
 
 /**
@@ -37,4 +37,45 @@
  * * add the event listener to the container, pass the callback.
  */
 
-// Your code goes here...
+// Your code goes here...\
+// localStorage.clear();
+
+const allItems = document.querySelectorAll(".card");
+
+const changeBG = () => {
+  allItems.forEach((node) => {
+    localStorage.getItem("favs").includes(node.id)
+      ? node.classList.add("red")
+      : node.classList.remove("red");
+  });
+};
+
+changeBG();
+
+const addId = (id) => {
+  let storedId = localStorage.getItem("favs") ?? "";
+  storedId += `${id},`;
+  localStorage.setItem("favs", storedId);
+};
+
+const removeId = (id) => {
+  const storedIds = localStorage.getItem("favs").split(",");
+  storedIds.splice(storedIds.indexOf(id), 1).join(",");
+  localStorage.setItem("favs", storedIds);
+};
+
+const callBack = ({ id }) => {
+  const storedIds = localStorage.getItem("favs").split(",");
+  if (storedIds.includes(id)) {
+    removeId(id);
+  } else {
+    addId(id);
+  }
+  changeBG();
+};
+
+allItems.forEach((node) => {
+  node.addEventListener("click", (event) => {
+    callBack(event.target);
+  });
+});
