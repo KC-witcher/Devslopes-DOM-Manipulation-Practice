@@ -40,19 +40,11 @@ const sortData = (direction) => {
   const mainNode = document.getElementById("main");
   const nodeArray = Array.from(allItems);
   nodeArray.sort((a, b) => {
-    if (direction == "asc") {
-      if (a.id > b.id) {
-        return 1;
-      } else if (a.id < b.id) {
-        return -1;
-      } else return 0;
-    } else if (direction == "desc") {
-      if (a.id < b.id) {
-        return 1;
-      } else if (a.id > b.id) {
-        return -1;
-      } else return 0;
-    }
+    if (a.id > b.id) {
+      return direction === "asc" ? 1 : -1;
+    } else if (a.id < b.id) {
+      return direction === "asc" ? -1 : 1;
+    } else return 0;
   });
   nodeArray.forEach((node) => {
     mainNode.append(node);
