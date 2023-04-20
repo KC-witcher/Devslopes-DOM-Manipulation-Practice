@@ -36,7 +36,7 @@ const sortBtn = document.querySelectorAll(".sortBtn");
  */
 
 // Your code goes here... 8667186991
-function sortData(direction) {
+const sortData = (direction) => {
   const mainNode = document.getElementById("main");
   const nodeArray = Array.from(allItems);
   nodeArray.sort((a, b) => {
@@ -57,7 +57,7 @@ function sortData(direction) {
   nodeArray.forEach((node) => {
     mainNode.append(node);
   });
-}
+};
 
 /**
  * @task

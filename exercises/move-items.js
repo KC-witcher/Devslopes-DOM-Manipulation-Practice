@@ -43,7 +43,7 @@ const favs = document.getElementById("favs");
  */
 
 // Your code goes here
-function updateCollections(id, direction) {
+const updateCollections = (id, direction) => {
   const targetElement = document.getElementById(id);
   const icon = targetElement.firstElementChild;
   if (direction == "toMain") {
@@ -55,7 +55,7 @@ function updateCollections(id, direction) {
     icon.classList.add("fa-heart-crack");
     icon.classList.remove("fa-heart-circle-plus");
   }
-}
+};
 
 /**
  * @task
