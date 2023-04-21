@@ -7,8 +7,8 @@
  * * 03 LocalStorage.md
  * * 04 EventDelegation.md
  * Local Storage might be shortened to "LS" in the comments beneath.
- * Event delegation MUST be used
  * @requirement
+ * Event delegation MUST be used
  */
 
 /**
@@ -38,44 +38,52 @@
  */
 
 // Your code goes here...\
-// localStorage.clear();
-
-const allItems = document.querySelectorAll(".card");
+const parentContainer = document.querySelector(".cardsContainer");
+const childNodes = Array.from(parentContainer.children);
+let lStorageArray = [];
+let targetID = { ids: [] };
 
 const changeBG = () => {
-  allItems.forEach((node) => {
-    localStorage.getItem("favs").includes(node.id)
-      ? node.classList.add("red")
-      : node.classList.remove("red");
+  // Initializing lStorageArray and TargetID if there is already a localStorage instance.
+  if (localStorage.getItem("favs")) {
+    lStorageArray = JSON.parse(localStorage.getItem("favs")).ids;
+    targetID.ids = lStorageArray;
+  }
+  childNodes.forEach((node) => {
+    if (lStorageArray.includes(node.id)) {
+      node.classList.add("red");
+    } else {
+      node.classList.remove("red");
+    }
   });
 };
 
 changeBG();
 
-const addId = (id) => {
-  let storedId = localStorage.getItem("favs") ?? "";
-  storedId += `${id},`;
-  localStorage.setItem("favs", storedId);
+const storeID = (id) => {
+  targetID.ids.push(id);
+  setLocalStorage(targetID);
 };
 
-const removeId = (id) => {
-  const storedIds = localStorage.getItem("favs").split(",");
-  storedIds.splice(storedIds.indexOf(id), 1).join(",");
-  localStorage.setItem("favs", storedIds);
+const deleteID = (id) => {
+  targetID.ids.splice(targetID.ids.indexOf(id), 1);
+  setLocalStorage(targetID);
 };
 
-const callBack = ({ id }) => {
-  const storedIds = localStorage.getItem("favs").split(",");
-  if (storedIds.includes(id)) {
-    removeId(id);
+const setLocalStorage = (id) => {
+  // Update lStorageArray with new data stored
+  localStorage.setItem("favs", JSON.stringify(id));
+  lStorageArray = JSON.parse(localStorage.getItem("favs")).ids;
+};
+
+const onClick = (event) => {
+  const eTarget = event.target;
+  if (lStorageArray.includes(eTarget.id)) {
+    deleteID(eTarget.id);
   } else {
-    addId(id);
+    storeID(eTarget.id);
   }
   changeBG();
 };
 
-allItems.forEach((node) => {
-  node.addEventListener("click", (event) => {
-    callBack(event.target);
-  });
-});
+parentContainer.addEventListener("click", onClick);
